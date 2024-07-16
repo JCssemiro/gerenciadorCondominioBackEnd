@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: seuCondominio
+  datasource:
+    url: jdbc:postgresql://localhost:5432/seuCondominio
+    password: postgres
+    username: postgres
+  jpa:
+    show-sql: true

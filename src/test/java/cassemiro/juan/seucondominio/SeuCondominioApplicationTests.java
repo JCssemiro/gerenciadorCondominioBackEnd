@@ -1,0 +1,13 @@
+package cassemiro.juan.seucondominio;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SeuCondominioApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
