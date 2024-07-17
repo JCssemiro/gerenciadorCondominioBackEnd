@@ -9,4 +9,7 @@ public record CargoDto(
         @NotNull float salarioBase,
         @NotNull int cargaHoraria
 ){
+    public CargoDto(Cargo cargo){
+        this(cargo.getId(),cargo.getNome(),cargo.getSalarioBase(),cargo.getCargaHoraria());
+    }
 }

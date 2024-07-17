@@ -1,5 +1,7 @@
 package cassemiro.juan.seucondominio.models;
 
+import cassemiro.juan.seucondominio.dtos.CargoCadastroDto;
+import cassemiro.juan.seucondominio.dtos.CargoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +27,16 @@ public class Cargo {
     private int cargaHoraria;
 
 
+    public Cargo(CargoDto cargo) {
+        this.id = cargo.id();
+        this.nome = cargo.nome();
+        this.salarioBase = cargo.salarioBase();
+        this.cargaHoraria = cargo.cargaHoraria();
+    }
 
+    public Cargo(CargoCadastroDto cargo) {
+        this.nome = cargo.nome();
+        this.salarioBase = cargo.salarioBase();
+        this.cargaHoraria = cargo.cargaHoraria();
+    }
 }
