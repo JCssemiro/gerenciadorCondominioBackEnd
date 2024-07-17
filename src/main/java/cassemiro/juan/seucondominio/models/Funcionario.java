@@ -1,6 +1,8 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import cassemiro.juan.seucondominio.dtos.FuncionarioCadastroDto;
+import cassemiro.juan.seucondominio.dtos.FuncionarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,4 +44,28 @@ public class Funcionario {
     @ManyToOne
     @JoinColumn(name = "cargo_id",referencedColumnName = "id")
     private Cargo cargo;
+
+    public Funcionario(FuncionarioDto funcionario,Cargo cargoAlterado) {
+        this.id = funcionario.id();
+        this.nome = funcionario.nome();
+        this.cpf = funcionario.cpf();
+        this.dataNascimento = funcionario.dataNascimento();
+        this.sexo = funcionario.sexo();
+        this.telefone = funcionario.telefone();
+        this.email = funcionario.email();
+        this.salario = funcionario.salario();
+        this.cargo = cargoAlterado;
+    }
+
+    public Funcionario(FuncionarioCadastroDto funcionario,Cargo cargo) {
+        this.nome = funcionario.nome();
+        this.cpf = funcionario.cpf();
+        this.dataNascimento = funcionario.dataNascimento();
+        this.sexo = funcionario.sexo();
+        this.telefone = funcionario.telefone();
+        this.email = funcionario.email();
+        this.salario = funcionario.salario();
+        this.cargo = cargo;
+
+    }
 }

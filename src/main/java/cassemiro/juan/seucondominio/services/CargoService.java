@@ -40,7 +40,7 @@ public class CargoService {
             cargoRepository.save(cargoAlterado);
             return new CargoDto(cargoAlterado);
         }
-        throw new NoSuchElementException("O cargo informado não pôde ser alterado porque não existe");
+        throw new NoSuchElementException("O cargo não pôde ser alterado!");
     }
 
     public void excluirCargoPorId(Long id){
