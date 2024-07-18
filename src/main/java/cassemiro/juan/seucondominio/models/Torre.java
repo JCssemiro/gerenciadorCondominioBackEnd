@@ -1,6 +1,8 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import cassemiro.juan.seucondominio.dtos.TorreCadastroDto;
+import cassemiro.juan.seucondominio.dtos.TorreDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="tore")
+@Table(name="torre")
 public class Torre {
 
     @Id
@@ -27,4 +29,16 @@ public class Torre {
     @Column(name="qtd_unidades",nullable = false)
     private int qtdUnidades;
 
+    public Torre(TorreDto dto) {
+        this.id = dto.id();
+        this.nome = dto.nome();
+        this.andares = dto.andares();
+        this.qtdUnidades = dto.qtdUnidades();
+    }
+
+    public Torre(TorreCadastroDto dto) {
+        this.nome = dto.nome();
+        this.andares = dto.andares();
+        this.qtdUnidades = dto.qtdUnidades();
+    }
 }

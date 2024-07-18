@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,7 +30,7 @@ public class TratadorDeErros {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity tratarErroNaoEncontradoURI(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException("Não foi possível solicitar sua solicitação","404"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException("Não foi possível processar sua solicitação","404"));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -40,6 +41,11 @@ public class TratadorDeErros {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity tratarErroRuntime(Exception ex){
         return ResponseEntity.internalServerError().body(new CustomException("Não foi possível processar sua solicitação","500"));
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity tratarErroMetodoNaoSuportado(){
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new CustomException("Método de requisição inválido","405"));
     }
 
     private record DadosErroValidacao(String campo, String mensagem) {
