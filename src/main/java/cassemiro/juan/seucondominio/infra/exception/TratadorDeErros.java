@@ -35,18 +35,19 @@ public class TratadorDeErros {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity tratarErroBadRequestLeitura(Exception ex){
-        return ResponseEntity.badRequest().body(new CustomException(ex.getMessage(),"400"));
+        return ResponseEntity.badRequest().body(new CustomException("Erro no Body da requisição","400"));
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity tratarErroRuntime(Exception ex){
-        return ResponseEntity.internalServerError().body(new CustomException("Não foi possível processar sua solicitação","500"));
+        return ResponseEntity.internalServerError().body(new CustomException(ex.getMessage(),"500"));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity tratarErroMetodoNaoSuportado(){
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new CustomException("Método de requisição inválido","405"));
     }
+
 
     private record DadosErroValidacao(String campo, String mensagem) {
         public DadosErroValidacao(FieldError erro) {

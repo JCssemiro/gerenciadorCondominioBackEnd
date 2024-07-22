@@ -19,7 +19,7 @@ public record FuncionarioDto(@NotNull Long id,
     public FuncionarioDto(Funcionario funcionario){
         this(funcionario.getId(),
                 funcionario.getNome(),
-                funcionario.getNome(),
+                funcionario.getCpf(),
                 funcionario.getDataNascimento(),
                 funcionario.getSexo(),
                 funcionario.getTelefone(),

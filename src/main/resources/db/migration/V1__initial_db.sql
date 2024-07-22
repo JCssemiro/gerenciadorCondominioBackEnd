@@ -19,7 +19,7 @@ CREATE TABLE funcionario(
 
 CREATE TABLE ponto(
                       id SERIAL PRIMARY KEY,
-                      horario_entrada timestamp NOT NULL,
+                      horario_entrada timestamp,
                       horario_saida timestamp,
                       carga_horaria interval,
                       funcionario_id int NOT NULL references funcionario(id)
@@ -82,17 +82,21 @@ CREATE TABLE encomenda(
 
 );
 
-CREATE OR REPLACE FUNCTION atualizar_carga_horaria_ponto()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION atualizar_carga_horaria()
+    RETURNS TRIGGER AS $$
 BEGIN
-IF NEW.data_saida IS NOT NULL AND OLD.data_entrada IS NOT NULL THEN
-NEW.carga_horaria := NEW.data_saida - OLD.data_entrada;
-UPDATE ponto SET carga_horaria = NEW.carga_horaria WHERE id = NEW.id;
-END IF;
-
-RETURN NEW;
+    IF NEW.horario_saida IS NOT NULL THEN
+        NEW.carga_horaria := NEW.horario_saida - NEW.horario_entrada;
+    END IF;
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_atualizar_carga_horaria
+    BEFORE UPDATE ON ponto
+    FOR EACH ROW
+EXECUTE FUNCTION atualizar_carga_horaria();
+
 
 CREATE OR REPLACE FUNCTION verificar_salario_funcionario()
 RETURNS TRIGGER AS $$
@@ -109,7 +113,3 @@ CREATE TRIGGER trigger_check_salario
                         FOR EACH ROW
                         EXECUTE FUNCTION verificar_salario_funcionario();
 
-CREATE TRIGGER trigger_update_carga_horaria
-    AFTER UPDATE OF horario_saida ON ponto
-    FOR EACH ROW
-    EXECUTE FUNCTION atualizar_carga_horaria_ponto();
