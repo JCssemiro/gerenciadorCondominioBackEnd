@@ -17,12 +17,12 @@ public class UnidadeController {
     private UnidadeService unidadeService;
 
     @GetMapping
-    public ResponseEntity<List<UnidadeDto>> listarTodasUnidades(@RequestParam(value = "torre",required = false) Long torreId){
+    public ResponseEntity<List<UnidadeDto>> listarTodasUnidadesPaginadas(@RequestParam(value = "torre",required = false) Long torreId,@RequestParam(value ="page",defaultValue = "0") int page){
         if(torreId != null){
             List<UnidadeDto> listaUnidades = unidadeService.listarUnidadesPorIdTorre(torreId);
             return ResponseEntity.ok(listaUnidades);
         }
-        List<UnidadeDto> listaUnidades = unidadeService.listarTodasUnidades();
+        List<UnidadeDto> listaUnidades = unidadeService.listarTodasUnidadesPaginadas(page);
 
         return ResponseEntity.ok(listaUnidades);
     }

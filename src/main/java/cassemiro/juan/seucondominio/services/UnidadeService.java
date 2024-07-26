@@ -7,6 +7,8 @@ import cassemiro.juan.seucondominio.models.Unidade;
 import cassemiro.juan.seucondominio.repositories.TorreRepository;
 import cassemiro.juan.seucondominio.repositories.UnidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,9 @@ public class UnidadeService {
     @Autowired
     private TorreRepository torreRepository;
 
-    public List<UnidadeDto> listarTodasUnidades(){
-        return unidadeRepository.findAll().stream().map(UnidadeDto::new).toList();
+    public List<UnidadeDto> listarTodasUnidadesPaginadas(int page){
+        Pageable pageable = PageRequest.of(page,10);
+        return unidadeRepository.findAll(pageable).stream().map(UnidadeDto::new).toList();
     }
 
     public UnidadeDto listarUnidadePorId(Long id){
