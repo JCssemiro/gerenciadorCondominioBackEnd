@@ -3,10 +3,13 @@ package cassemiro.juan.seucondominio.models;
 
 import cassemiro.juan.seucondominio.dtos.TorreCadastroDto;
 import cassemiro.juan.seucondominio.dtos.TorreDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -29,12 +32,9 @@ public class Torre {
     @Column(name="qtd_unidades",nullable = false)
     private int qtdUnidades;
 
-    public Torre(TorreDto dto) {
-        this.id = dto.id();
-        this.nome = dto.nome();
-        this.andares = dto.andares();
-        this.qtdUnidades = dto.qtdUnidades();
-    }
+    @OneToMany(mappedBy = "torre", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Unidade> unidades;
 
     public Torre(TorreCadastroDto dto) {
         this.nome = dto.nome();

@@ -1,6 +1,8 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +22,15 @@ public class Unidade {
     private Long id;
 
     @Column(name="numero",nullable = false)
-    private int numero;
+    private Integer numero;
 
     @ManyToOne
     @JoinColumn(name="torre_id",referencedColumnName = "id",nullable = false)
+    @JsonBackReference
     private Torre torre;
 
+    public Unidade(int numero, Torre torreNova) {
+        this.numero = numero;
+        this.torre = torreNova;
+    }
 }

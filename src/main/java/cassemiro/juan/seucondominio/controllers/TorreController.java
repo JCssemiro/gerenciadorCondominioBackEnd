@@ -39,11 +39,6 @@ public class TorreController {
         return ResponseEntity.created(uri).body(torreCadastrada);
     }
 
-    @PutMapping
-    public ResponseEntity<TorreDto> editarTorre(@RequestBody @Valid TorreDto dto){
-        TorreDto torreEditada = torreService.editarTorre(dto);
-        return ResponseEntity.ok(torreEditada);
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<TorreDto> excluirTorrePorId(@PathVariable Long id){

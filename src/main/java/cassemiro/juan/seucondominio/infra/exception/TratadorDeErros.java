@@ -1,6 +1,7 @@
 package cassemiro.juan.seucondominio.infra.exception;
 
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -46,6 +47,11 @@ public class TratadorDeErros {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity tratarErroMetodoNaoSuportado(){
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new CustomException("Método de requisição inválido","405"));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity tratarErroDeRestricaoDetabela(DataIntegrityViolationException e){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new CustomException("Você não pode fazer isso!","409"));
     }
 
 
