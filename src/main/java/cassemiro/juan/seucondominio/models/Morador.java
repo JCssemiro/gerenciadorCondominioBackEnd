@@ -1,6 +1,8 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import cassemiro.juan.seucondominio.dtos.MoradorCadastroDto;
+import cassemiro.juan.seucondominio.dtos.MoradorDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,4 +36,21 @@ public class Morador {
     @ManyToOne
     @JoinColumn(name="unidade_id",nullable = false,referencedColumnName = "id")
     private Unidade unidade;
+
+    public Morador(MoradorCadastroDto dto,Unidade unidade) {
+        this.nome = dto.nome();
+        this.cpf = dto.cpf();
+        this.dataNascimento = dto.dataNascimento();
+        this.sexo = dto.sexo();
+        this.unidade = unidade;
+    }
+
+    public Morador(MoradorDto dto, Unidade unidadeAlterada) {
+        this.id = dto.id();
+        this.nome = dto.nome();
+        this.cpf = dto.cpf();
+        this.dataNascimento = dto.dataNascimento();
+        this.sexo = dto.sexo();
+        this.unidade = unidadeAlterada;
+    }
 }

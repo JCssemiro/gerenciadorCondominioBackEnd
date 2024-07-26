@@ -3,6 +3,7 @@ package cassemiro.juan.seucondominio.models;
 
 import cassemiro.juan.seucondominio.dtos.TorreCadastroDto;
 import cassemiro.juan.seucondominio.dtos.TorreDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,10 +32,6 @@ public class Torre {
 
     @Column(name="qtd_unidades",nullable = false)
     private int qtdUnidades;
-
-    @OneToMany(mappedBy = "torre", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Unidade> unidades;
 
     public Torre(TorreCadastroDto dto) {
         this.nome = dto.nome();
