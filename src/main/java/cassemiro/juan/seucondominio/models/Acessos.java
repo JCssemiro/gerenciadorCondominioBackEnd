@@ -32,4 +32,11 @@ public class Acessos {
 
     @Column(name = "data_saida",nullable = false)
     private Instant dataSaida;
+
+    public Acessos(Morador morador, Visitante visitante) {
+        this.morador = morador;
+        this.visitante = visitante;
+        this.dataEntrada = Instant.now();
+        this.dataSaida = (Instant.now().plusSeconds(60*60*24));
+    }
 }
