@@ -1,6 +1,8 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import cassemiro.juan.seucondominio.dtos.VisitanteCadastroDto;
+import cassemiro.juan.seucondominio.dtos.VisitanteDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +33,18 @@ public class Visitante {
     @Column(name = "sexo",nullable = false,length = 9)
     private String sexo;
 
+    public Visitante(VisitanteCadastroDto dto) {
+        this.nome = dto.nome();
+        this.cpf = dto.cpf();
+        this.dataNascimento = dto.dataNascimento();
+        this.sexo = dto.sexo();
+    }
+
+    public Visitante(VisitanteDto dto) {
+        this.id = dto.id();
+        this.nome = dto.nome();
+        this.cpf = dto.cpf();
+        this.dataNascimento = dto.dataNascimento();
+        this.sexo = dto.sexo();
+    }
 }
