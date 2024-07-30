@@ -26,8 +26,6 @@ public class MoradorService {
     @Autowired
     private UnidadeRepository unidadeRepository;
 
-    @Autowired
-    private TorreRepository torreRepository;
 
     public List<MoradorDto> listarTodosMoradores(int page){
         Pageable pageable = PageRequest.of(page,10);

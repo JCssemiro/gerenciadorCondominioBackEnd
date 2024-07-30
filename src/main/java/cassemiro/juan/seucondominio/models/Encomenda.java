@@ -1,12 +1,15 @@
 package cassemiro.juan.seucondominio.models;
 
 
+import cassemiro.juan.seucondominio.dtos.EncomendaCadastroDto;
+import cassemiro.juan.seucondominio.dtos.EncomendaEdicaoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Date;
 
 
 @Data
@@ -24,16 +27,16 @@ public class Encomenda {
     private String descricao;
 
     @Column(name="peso",nullable = false)
-    private float peso;
+    private Float peso;
 
     @Column(name="altura",nullable = false)
-    private float altura;
+    private Float altura;
 
     @Column(name="comprimento",nullable = false)
-    private float comprimento;
+    private Float comprimento;
 
     @Column(name="largura",nullable = false)
-    private float largura;
+    private Float largura;
 
     @Column(name="data_recepcao",nullable = false)
     private Instant dataRecepcao;
@@ -42,7 +45,7 @@ public class Encomenda {
     private Instant dataEntrega;
 
     @Column(name="entregue",nullable = false)
-    private boolean entregue;
+    private Boolean entregue;
 
     @ManyToOne
     @JoinColumn(name = "morador_id",referencedColumnName = "id")
@@ -53,4 +56,17 @@ public class Encomenda {
     private Funcionario funcionario;
 
 
+
+
+    public Encomenda(EncomendaCadastroDto encomenda, Morador morador, Funcionario funcionario) {
+        this.descricao = encomenda.descricao();
+        this.peso = encomenda.peso();
+        this.altura = encomenda.altura();
+        this.comprimento = encomenda.comprimento();
+        this.largura = encomenda.largura();
+        this.dataRecepcao = Instant.now();
+        this.entregue = false;
+        this.morador = morador;
+        this.funcionario = funcionario;
+    }
 }
