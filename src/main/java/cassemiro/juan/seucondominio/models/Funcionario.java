@@ -7,7 +7,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Data
@@ -15,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name="funcionario")
-public class Funcionario {
+public class Funcionario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +44,9 @@ public class Funcionario {
     @Column(name = "salario",nullable = false)
     private float salario;
 
+    @Column(name = "senha",nullable = false)
+    private String senha;
+
     @ManyToOne
     @JoinColumn(name = "cargo_id",referencedColumnName = "id")
     private Cargo cargo;
@@ -57,7 +63,7 @@ public class Funcionario {
         this.cargo = cargoAlterado;
     }
 
-    public Funcionario(FuncionarioCadastroDto funcionario,Cargo cargo) {
+    public Funcionario(FuncionarioCadastroDto funcionario,Cargo cargo,String senha) {
         this.nome = funcionario.nome();
         this.cpf = funcionario.cpf();
         this.dataNascimento = funcionario.dataNascimento();
@@ -66,6 +72,21 @@ public class Funcionario {
         this.email = funcionario.email();
         this.salario = funcionario.salario();
         this.cargo = cargo;
+        this.senha = senha;
+    }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }

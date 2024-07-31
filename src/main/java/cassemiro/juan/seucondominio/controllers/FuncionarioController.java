@@ -7,6 +7,7 @@ import cassemiro.juan.seucondominio.services.FuncionarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,6 +20,8 @@ public class FuncionarioController {
 
     @Autowired
     private FuncionarioService funcionarioService;
+
+
 
     @GetMapping
     public ResponseEntity<List<FuncionarioDto>> listarTodosFuncionarios(){

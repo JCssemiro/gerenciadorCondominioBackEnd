@@ -14,7 +14,8 @@ public record FuncionarioDto(@NotNull Long id,
                              @NotNull String telefone,
                              @NotNull  String email,
                              @NotNull float salario,
-                             @NotNull Cargo cargo) {
+                             @NotNull Cargo cargo,
+                             @NotNull String senha) {
 
     public FuncionarioDto(Funcionario funcionario){
         this(funcionario.getId(),
@@ -25,6 +26,7 @@ public record FuncionarioDto(@NotNull Long id,
                 funcionario.getTelefone(),
                 funcionario.getEmail(),
                 funcionario.getSalario(),
-                funcionario.getCargo());
+                funcionario.getCargo(),
+                funcionario.getSenha());
     }
 }

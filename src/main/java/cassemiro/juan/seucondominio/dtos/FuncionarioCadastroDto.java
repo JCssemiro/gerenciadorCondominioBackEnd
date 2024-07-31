@@ -13,5 +13,6 @@ public record FuncionarioCadastroDto(
                                      @NotNull String telefone,
                                      @NotNull  String email,
                                      @NotNull float salario,
-                                     @NotNull Long cargoId) {
+                                     @NotNull Long cargoId,
+                                     @NotNull String senha) {
 }

@@ -8,7 +8,10 @@ import cassemiro.juan.seucondominio.models.Funcionario;
 import cassemiro.juan.seucondominio.repositories.CargoRepository;
 import cassemiro.juan.seucondominio.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,6 +21,9 @@ public class FuncionarioService {
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CargoRepository cargoRepository;
@@ -35,13 +41,11 @@ public class FuncionarioService {
     }
 
     public FuncionarioDto cadastrarFuncionario(FuncionarioCadastroDto dto){
-        try {
-            Cargo cargoDoFuncionario = cargoRepository.findById(dto.cargoId()).get();
-            Funcionario funcionarioCadastrado = funcionarioRepository.save(new Funcionario(dto, cargoDoFuncionario));
+            Cargo cargoDoFuncionario = cargoRepository.findById(dto.cargoId()).orElseThrow(()-> new NoSuchElementException("O cargo informado não existe!"));
+            String senhaCodificada = passwordEncoder.encode(dto.senha());
+            Funcionario funcionarioCadastrado = funcionarioRepository.save(new Funcionario(dto, cargoDoFuncionario,senhaCodificada));
             return new FuncionarioDto(funcionarioCadastrado);
-        }catch(NoSuchElementException e){
-            throw new NoSuchElementException("O cargo informado não existe!");
-        }
+
     }
 
     public FuncionarioDto editarFuncionario(FuncionarioDto funcionario){
