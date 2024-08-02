@@ -3,6 +3,7 @@ package cassemiro.juan.seucondominio.services;
 
 import cassemiro.juan.seucondominio.dtos.FuncionarioCadastroDto;
 import cassemiro.juan.seucondominio.dtos.FuncionarioDto;
+import cassemiro.juan.seucondominio.dtos.RecuperacaoSenhaDto;
 import cassemiro.juan.seucondominio.models.Cargo;
 import cassemiro.juan.seucondominio.models.Funcionario;
 import cassemiro.juan.seucondominio.repositories.CargoRepository;
@@ -61,6 +62,13 @@ public class FuncionarioService {
 
     public void excluirFuncionarioPorId(Long id){
         funcionarioRepository.deleteById(id);
+    }
+
+    public void alterarSenha(RecuperacaoSenhaDto dto){
+        String senhaCodificada = passwordEncoder.encode(dto.senha());
+        Funcionario funcionario = funcionarioRepository.findById(dto.funcionarioId()).get();
+        funcionario.setSenha(senhaCodificada);
+        funcionarioRepository.save(funcionario);
     }
 
 }
