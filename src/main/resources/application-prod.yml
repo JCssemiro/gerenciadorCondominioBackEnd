@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: seuCondominio
+  datasource:
+    url: ${DB_APP_URL}
+    password: ${DB_APP_PASSWORD}
+    username: ${DB_APP_USERNAME}
+  jpa:
+    show-sql: true
+  mail:
+    host: ${EMAIL_APP_HOST}
+    port: ${EMAIL_APP_PORT}
+    password: ${EMAIL_APP_PASSWORD}
+    username: ${EMAIL_APP_LOGIN}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+api:
+  security:
+    token:
+      secret: ${APP_SECURITY_SECRET}
