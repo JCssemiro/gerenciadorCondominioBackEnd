@@ -3,7 +3,6 @@ package cassemiro.juan.seucondominio.controllers;
 import cassemiro.juan.seucondominio.dtos.*;
 import cassemiro.juan.seucondominio.infra.security.TokenDto;
 import cassemiro.juan.seucondominio.models.Funcionario;
-import cassemiro.juan.seucondominio.repositories.TokenRecuperacaoRepository;
 import cassemiro.juan.seucondominio.services.FuncionarioService;
 import cassemiro.juan.seucondominio.services.MailService;
 import cassemiro.juan.seucondominio.services.RecuperacaoSenhaService;

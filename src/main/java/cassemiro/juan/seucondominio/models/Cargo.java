@@ -6,13 +6,16 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Table(name="cargo")
-public class Cargo {
+public class Cargo implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,5 +41,14 @@ public class Cargo {
         this.nome = cargo.nome();
         this.salarioBase = cargo.salarioBase();
         this.cargaHoraria = cargo.cargaHoraria();
+    }
+
+    @Override
+    public String getAuthority() {
+        if(Objects.equals(nome, "Supervisor")){
+            return ROLES.ROLE_SUPERVISOR.name();
+        }else{
+            return ROLES.ROLE_FUNCIONARIO.name();
+        }
     }
 }
