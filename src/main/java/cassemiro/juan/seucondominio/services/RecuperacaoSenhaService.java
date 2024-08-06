@@ -23,8 +23,8 @@ public class RecuperacaoSenhaService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
-    public String gerarCodigoRecuperacao(Long funcionarioId){
-        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).orElseThrow(()->new NoSuchElementException("Não é possível recuperar a senha para usuário inexistente"));
+    public String gerarCodigoRecuperacao(String emailFuncionario){
+        Funcionario funcionario = funcionarioRepository.findByEmail(emailFuncionario).orElseThrow(()->new NoSuchElementException("Não é possível recuperar a senha para usuário inexistente"));
         String codigo = UUID.randomUUID().toString().substring(0,6).toUpperCase();
         TokenRecuperacao recuperacaoSenhaToken = new TokenRecuperacao();
         recuperacaoSenhaToken.setFuncionario(funcionario);
@@ -36,8 +36,8 @@ public class RecuperacaoSenhaService {
     }
 
     public Boolean validarToken(RecuperacaoSenhaDto dto){
-        if(tokenRepository.findByFuncionarioId(dto.funcionarioId()).isPresent()){
-           TokenRecuperacao token = tokenRepository.findByFuncionarioId(dto.funcionarioId()).get();
+        if(tokenRepository.findByFuncionarioEmail(dto.funcionarioEmail()).isPresent()){
+           TokenRecuperacao token = tokenRepository.findByFuncionarioEmail(dto.funcionarioEmail()).get();
            if(token.getDataExpiracao().isBefore(Instant.now())){
                System.out.println("TOKEN EXPIRADO");
                tokenRepository.deleteById(token.getId());

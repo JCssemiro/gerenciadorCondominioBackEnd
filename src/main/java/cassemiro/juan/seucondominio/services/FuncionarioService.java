@@ -8,14 +8,17 @@ import cassemiro.juan.seucondominio.models.Cargo;
 import cassemiro.juan.seucondominio.models.Funcionario;
 import cassemiro.juan.seucondominio.repositories.CargoRepository;
 import cassemiro.juan.seucondominio.repositories.FuncionarioRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class FuncionarioService {
@@ -29,6 +32,9 @@ public class FuncionarioService {
     @Autowired
     private CargoRepository cargoRepository;
 
+    @Autowired
+    private MailService mailService;
+
     public List<FuncionarioDto> listarTodosFuncionarios(){
         return funcionarioRepository.findAll().stream().map(FuncionarioDto::new).toList();
     }
@@ -41,10 +47,17 @@ public class FuncionarioService {
         }
     }
 
-    public FuncionarioDto cadastrarFuncionario(FuncionarioCadastroDto dto){
+    public FuncionarioDto listarFuncionarioPorEmail(String email){
+        return new FuncionarioDto(funcionarioRepository.findByEmail(email)
+                .orElseThrow(()->new NoSuchElementException("Funcionário não encontrado!")));
+    }
+
+    public FuncionarioDto cadastrarFuncionario(FuncionarioCadastroDto dto) throws MessagingException, IOException {
             Cargo cargoDoFuncionario = cargoRepository.findById(dto.cargoId()).orElseThrow(()-> new NoSuchElementException("O cargo informado não existe!"));
-            String senhaCodificada = passwordEncoder.encode(dto.senha());
+            String senhaRandom = UUID.randomUUID().toString().substring(0,16);
+            String senhaCodificada = passwordEncoder.encode(senhaRandom);
             Funcionario funcionarioCadastrado = funcionarioRepository.save(new Funcionario(dto, cargoDoFuncionario,senhaCodificada));
+            mailService.enviarEmailCadastro(funcionarioCadastrado.getEmail(),funcionarioCadastrado.getNome().split(" ")[0]);
             return new FuncionarioDto(funcionarioCadastrado);
 
     }
@@ -66,7 +79,7 @@ public class FuncionarioService {
 
     public void alterarSenha(RecuperacaoSenhaDto dto){
         String senhaCodificada = passwordEncoder.encode(dto.senha());
-        Funcionario funcionario = funcionarioRepository.findById(dto.funcionarioId()).get();
+        Funcionario funcionario = funcionarioRepository.findByEmail(dto.funcionarioEmail()).get();
         funcionario.setSenha(senhaCodificada);
         funcionarioRepository.save(funcionario);
     }

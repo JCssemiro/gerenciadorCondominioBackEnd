@@ -55,8 +55,8 @@ public class AuthController {
 
     @PostMapping("/solicitar-recuperacao")
     public ResponseEntity<MessageDto> solicitarRecuperacao(@RequestBody @Valid SolicitarRecuperacaoSenhaDto dto) throws MessagingException, IOException {
-        FuncionarioDto funcionario = funcionarioService.listarFuncionarioPorId(dto.funcionarioId());
-        String code = recuperacaoSenhaService.gerarCodigoRecuperacao(dto.funcionarioId());
+        FuncionarioDto funcionario = funcionarioService.listarFuncionarioPorEmail(dto.funcionarioEmail());
+        String code = recuperacaoSenhaService.gerarCodigoRecuperacao(dto.funcionarioEmail());
         mailService.enviarEmailRedefinicaoSenha(funcionario.email(),code);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessageDto("Código de recuperação de senha enviado para o e-mail cadastrado!"));
     }

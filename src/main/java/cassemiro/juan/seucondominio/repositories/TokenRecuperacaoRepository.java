@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface TokenRecuperacaoRepository extends JpaRepository<TokenRecuperacao,Long> {
 
-    @Query("SELECT t FROM TokenRecuperacao t WHERE t.funcionario.id = :funcionarioId")
-    Optional<TokenRecuperacao> findByFuncionarioId(Long funcionarioId);
+    @Query("SELECT t FROM TokenRecuperacao t WHERE t.funcionario.email = :email")
+    Optional<TokenRecuperacao> findByFuncionarioEmail(String email);
 }

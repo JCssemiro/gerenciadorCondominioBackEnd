@@ -42,6 +42,25 @@ public class MailService {
 
     }
 
+    public void enviarEmailCadastro(String dest, String nomeFuncionario) throws MessagingException, IOException{
+        try {
+            MimeMessage emailCliente = emailSender.createMimeMessage();
+
+            MimeMessageHelper helperCliente = new MimeMessageHelper(emailCliente, true, "UTF-8");
+
+            String htmlCliente = lerConteudoHTML("src/main/resources/templates/emailCadastro.html");
+
+            htmlCliente = htmlCliente.replace("{{nomeColaborador}}",nomeFuncionario);
+            helperCliente.setText(htmlCliente, true);
+            helperCliente.setTo(dest);
+            helperCliente.setSubject("Bem-vindo a nossa equipe! ");
+
+            emailSender.send(emailCliente);
+        }catch(RuntimeException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     private String lerConteudoHTML(String caminho) throws IOException {
         Path path = Paths.get(caminho);
         byte[] fileBytes = Files.readAllBytes(path);

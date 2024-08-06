@@ -4,12 +4,14 @@ package cassemiro.juan.seucondominio.controllers;
 import cassemiro.juan.seucondominio.dtos.FuncionarioCadastroDto;
 import cassemiro.juan.seucondominio.dtos.FuncionarioDto;
 import cassemiro.juan.seucondominio.services.FuncionarioService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class FuncionarioController {
     }
 
     @PostMapping
-    public ResponseEntity<FuncionarioDto> cadastrarFuncionario(@RequestBody @Valid FuncionarioCadastroDto dto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<FuncionarioDto> cadastrarFuncionario(@RequestBody @Valid FuncionarioCadastroDto dto, UriComponentsBuilder uriBuilder) throws MessagingException, IOException {
         FuncionarioDto funcionarioNovo = funcionarioService.cadastrarFuncionario(dto);
         URI uri = uriBuilder.path("/staff/{id}").buildAndExpand(funcionarioNovo.id()).toUri();
         return ResponseEntity.created(uri).body(funcionarioNovo);
